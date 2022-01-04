@@ -1,0 +1,103 @@
+body {
+    position: relative;
+    background: rgb(243, 217, 177);
+    overflow-y: auto;
+
+}
+
+.cont {
+    height: max-content;
+    display: flex;
+    position: relative;
+    place-items: center;
+}
+
+.win_type {
+    display: flex;
+    position: relative;
+    border: 1px solid #000;
+    background: #8080ff;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: space-around;
+    align-items: center;
+    width: 300px;
+    height: 200px;
+}
+
+.zcalc,
+.tps {
+    display: flex;
+    position: relative;
+    border: 3px inset rgb(90, 82, 82);
+    cursor: pointer;
+    width: 120px;
+    height: 80px;
+    align-items: center;
+    justify-content: center;
+}
+
+:is(.zcalc, .tps):hover {
+    background: #800000;
+    color: azure;
+}
+
+.zcalc::after {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    content: "Прайс от 20.12.21";
+    font-size: 13px;
+}
+
+#vers {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    z-index: 5
+}
+
+#vers>a {
+    /* appearance: none; */
+    position: relative
+}
+
+#vers>a:hover {
+    cursor: pointer;
+    color: rgb(255, 255, 255);
+    font-weight: 600;
+}
+
+.notes {
+    position: absolute;
+    width: 500px;
+    left: 0;
+    top: 0;
+    height: fit-content;
+    /* border: 1px solid #000; */
+}
+
+.todo {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 250px;
+    height: fit-content;
+    background: #c0c0c0;
+    padding: 5px 5px;
+    /* overflow-y: auto; */
+}
+
+.todo span {
+    margin-left: 45px;
+    font-weight: bold;
+}
+
+
+:is(.todo, .notes) h3 {
+    padding-bottom: 5px;
+    position: relative;
+    margin-bottom: 5px;
+    left: 35%;
+}

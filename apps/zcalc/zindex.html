@@ -1,0 +1,207 @@
+<!-- TODO: поменять кнопку ресет
+TODO: добавить отдельную дверь-->
+
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
+    <link rel='stylesheet' href='lib/style.css' />
+    <script src="lib/handlers.js"></script>
+    <script src="lib/priceDB.js" defer></script>
+    <script src='lib/SizeDB.js'></script>
+    <script src='lib/zDB.js'></script>
+    <script src='lib/stateloader.js'></script>
+    <script src='lib/animation.js'></script>
+    <script src='lib/main.js'></script>
+    <script>
+        function loadScript(src, callback) {
+            let script = document.createElement("script");
+            script.src = src;
+            document.head.append(script);
+            script.onload = () => callback(script);
+        }
+        loadScript('zApp.js', () => {
+            new HelpDesk();
+            new AppScriptLoader([
+                "lib/expTable.js",
+                "lib/funcprice.js",
+                "lib/Selector.js",
+                "lib/zstorage.js",
+                "lib/mapper.js",
+                "lib/model.js",
+                "lib/testing.js",
+            ])
+        });
+        stylelog("HTML IS READY");
+    </script>
+
+
+    <title>Калькулятор жалюзей</title>
+</head>
+
+<body>
+    <!-- <div>
+        <h1 class="tooltip">ЖАЛЮЗИ</h1> <span class="tooltiptext">Рассчет жалюзей по профилю</span>
+    </div> -->
+    <!-- *Header: кнопки смены профильной системы, толщины ст-п, типа и цвета жалюзи а также их группа и, наконец, кнопка расчета -->
+    <header class="head">
+        <div class="headcont">
+
+            <div class="head-item">
+                <select name="veka" id="prof" oninput="td()" onclick="td()" data-stls="system" data-loadstate="system">
+                    <optgroup label="Основные">
+                        <option value="Proline" selected>Proline Comfort 70мм</option>
+                        <option value="Softline">Softline ComfortPlus 70мм</option>
+                        <option value="Premium82">Softline Premium 82мм</option>
+                        <option value="Euroline">Euroline 58мм</option>
+                    </optgroup>
+                    <optgroup label="Бюджетные">
+                        <option value="WHS72">WHS72 StandartPlus 72мм</option>
+                        <option value="WHS60">WHS60 60мм</option>
+                    </optgroup>
+                    <optgroup label="Выведеные из оборота">
+                        <option value="BasicPlus">Базовый+ 70мм</option>
+                        <option value="Lux">Люкс 70мм</option>
+                        <option value="Optima">Оптима 60мм</option>
+                        <option value="TermoPlus">Термоплюс 80мм</option>
+                    </optgroup>
+                </select>
+
+                <select name="glass-depth" id="gdepth" class="gldepth" onclick="this.style.opacity = 1"
+                    data-stls="gdepth" data-loadstate="gdepth">
+                    <option class="odepth" value="28" selected>28 mm</option>
+                    <option class="odepth" value="24">24 mm</option>
+                    <option class="odepth" value="30">30 mm</option>
+                    <option class="odepth" value="32">32 mm</option>
+                    <option class="odepth" value="36">36 mm</option>
+                    <option class="odepth" value="38">38 mm</option>
+                    <option class="odepth" value="40">40 mm</option>
+                    <option class="odepth" value="52">52 mm</option>
+                </select>
+            </div>
+
+            <div class="head-item ztypebtn" id="ztype" onclick="tt()" data-stls="ztype" data-loadstate="ztype">Isolite
+            </div>
+
+            <select tabindex="5" class="head-item" name="zlist" id="zlist" placeholder="Цвет" onclick="setPriceGroup()"
+                data-stls="zcolor" data-loadstate="zcolor">
+            </select>
+            <span class="resetv zc" onclick="resetvals()">&#9746;</span>
+
+            <div id="zgrp" class="head-item"></div>
+
+            <button class="calc-btn head-item" id="calc-btn">Рассчитать</button>
+
+        </div>
+    </header>
+
+    <div class="disc abs">
+        <label for="discount"><span>Скидка: </span>
+            <input type="number" name="discount" id="discount" min="0" max="90" step="1" value="40"
+                data-stls="discount">
+        </label>
+        <label for="isdisc" class="usedisc"><input type="checkbox" name="usedisc" id="isdisc" data-stls="discount">
+            Применять скидку?</label>
+    </div>
+    <!--!Выбор конфигурации окна для расчета-->
+    <div id="cfgbox" class="cfg-gridbox">
+        <div class="cfg-item" data-cfg="fff" onclick="resizeWin('fff')" data-loadstate="fff"><span>Трешка</span> </div>
+        <div class="cfg-item" data-cfg="ff" onclick="resizeWin('ff')" data-loadstate="ff"><span> Двушка </span></div>
+        <div class="cfg-item" data-cfg="f" onclick="resizeWin('f')" data-loadstate="f"><span>Адынушка</span></div>
+        <div class="cfg-item" data-cfg="d" onclick="resizeWin('d')" data-loadstate="d"><span>Дверка</span></div>
+        <div class="cfg-item" data-cfg="d-f" onclick="resizeWin('df')" data-loadstate="df"><span>Б/Блок-1</span></div>
+        <div class="cfg-item" data-cfg="d-ff" onclick="resizeWin('dff')" data-loadstate="dff"><span>Б/Блок-2</span>
+        </div>
+        <div class="cfg-item" data-cfg="f-d-f" onclick="resizeWin('fdf')" data-loadstate="fdf"><span>Чебурашка</span>
+        </div>
+    </div>
+
+    <!-- !цвет короба-->
+    <div class="korob abs" data-kor_color="white" id="kor_col" data-loadstate="kcolor">
+        <div class="korgroup">
+            <span data-kor_select="white" class="active">Белый</span>
+
+        </div>
+        <div class="show korgroup">
+            <span data-kor_select="lamin">Золотой дуб</span>
+            <div class="droplist">
+                <span data-kor_select="lamin">Махагон</span>
+                <span data-kor_select="lamin">Золотой дуб</span>
+            </div>
+        </div>
+        <div class="korgroup">
+            <span data-kor_select="color">Kоричневый</span>
+            <div class="droplist">
+                <span data-kor_select="color">Бежевый</span>
+                <span data-kor_select="color">Серебро</span>
+                <span data-kor_select="color">Kоричневый</span>
+            </div>
+        </div>
+    </div>
+
+    <!--! BACKGROUNF FON IMG-->
+    <div class="cont" id="maincont">
+
+        <div class="imgbox" id="imgbox" data-isbb="false" data-rama-step="3" wintype="fff">
+            <img src="img/fff.svg" alt="nope" class="fon" id="fon" data-rama-step="3" wintype="fff" data-stls="wintype"
+                data-loadstate="wintype">
+            <img src="img/s3.svg" alt="nope" class="s1 anim" id="s1" onclick="opaopa(s1)" data-isfix="1">
+            <img src="img/s3.svg" alt="nope" class="s2 anim" id="s2" onclick="opaopa(s2)" data-isfix="1">
+            <img src="img/s3.svg" alt="nope" class="s3 anim" id="s3" onclick="opaopa(s3)" data-isfix="1">
+            <img src="img/door-imp.svg" alt="nope" class="sd anim" id="sd" onclick="opaopa(sd)" data-isfix="1">
+
+            <div class="sizebox" id="sizebox">
+                <input type="text" tabindex="3" class="size" name="sizes" id="levo" min="0" placeholder="лево"
+                    autocomplete="on">
+                <input type="text" tabindex="4" class="size" name="sizes" id="pravo" min="0" placeholder="право"
+                    autocomplete="on">
+                <input type="text" tabindex="1" class="size" name="sizes" id="h" min="0" placeholder="высота"
+                    autocomplete="on">
+                <input type="text" tabindex="2" class="size" name="sizes" id="w" min="0" placeholder="ширина"
+                    autocomplete="on">
+                <input type="text" tabindex="6" class="size" name="sizes" id="hpr" min="0" placeholder="высота пр"
+                    autocomplete="on">
+                <input type="text" tabindex="7" class="size" name="sizes" id="hlv" min="0" placeholder="высота лев"
+                    autocomplete="on">
+                <input type="text" tabindex="5" class="size" name="sizes" id="himp" min="0" placeholder="импоста"
+                    autocomplete="on">
+            </div>
+            <script>
+                restoreInputs()
+            </script>
+        </div>
+        <!--!OUTPUT-->
+        <div class="current">
+            <div id="outside">
+            </div>
+        </div>
+    </div>
+    <!--! SingleCalc Output-->
+    <div class="rs__maincalc" id="rs__calc" data-rs-calc="hide"></div>
+    <!--!кнопка СБРОС-->
+    <img src="img/reset.jpg" alt="reset" id="reset" class="resbtn" onclick="fullreset()">
+    <!--! Toggle Single Calculator-->
+    <div class="btn__cont" id="btn__cont">
+        <div class="btn__thumb" data-calc-state="close" onclick="toggle_rs_calc(this)"></div>
+    </div>
+    <!--! Show Table Btn-->
+    <img src="img/devbtn.jpg" alt="reset" id="show_calc" class="resbtn">
+
+    <!--! Table Export Output-->
+    <div class="tabwrapper" id="et"></div>
+    <!--!Help button-->
+    <button data-handler="showhelp"><img src="./img/helpdesk/question--v1.png" class='help-btn' /></button>
+    <div class="helpdesk" id="hd">
+    </div>
+    <script>
+        addListener();
+        td();
+        tt();
+        listSelector();
+        setPriceGroup()
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,64 @@
+.helpdesk {
+    position: absolute;
+    display: none;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 999;
+    background: rgba(71, 71, 71, 0.904);
+}
+
+
+button[data-handler] {
+    position: absolute;
+    top: 90px;
+    left: 1150px;
+    font-size: 22px;
+    background: tomato;
+    padding: 4px 8px 4px 8px;
+    transition: all .2s ease-in;
+    cursor: pointer;
+
+}
+
+button[data-handler]:hover {
+    background: #dd3333;
+}
+
+.help-btn {
+    width: 50px;
+
+}
+
+button[data-handler]::after {
+    content: 'HELP Panel';
+    display: none;
+
+}
+
+button[data-handler]:hover::after {
+    content: 'Окрыть подсказку';
+    display: block;
+    position: absolute;
+    left: 80px;
+    bottom: 0;
+
+
+}
+
+
+#helpcont {
+    left: 30px;
+    top: 50px;
+
+}
+
+.helpimg {
+    position: absolute;
+    display: block;
+    width: 1260px;
+    height: auto;
+    left: 70px;
+    top: 70px;
+}
