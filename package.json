@@ -12,7 +12,7 @@
     "pack": "electron-forge package",
     "start": "electron ."
   },
-  "repository": "https://github.com/akuma-code/DogsElectron.git",
+  "repository": "https://github.com/akuma-code/AkumaApps.git",
   "keywords": [
     "zcalc",
     "tps"

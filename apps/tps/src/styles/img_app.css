@@ -167,7 +167,8 @@ span:is([output=right], [output=left]) {
     display: flex;
     justify-content: space-between;
     border-bottom: 1px dotted black;
-    font-size: .9rem;
+    font-size: .9em;
+    text-shadow: 1px 1px gray;
 }
 
 .tps_output div>span:first-child {
