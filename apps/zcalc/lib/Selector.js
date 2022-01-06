@@ -79,44 +79,44 @@ const Delta_selector = {
 
     //! === glass type 0 === [r-r] -> рама-рама
     rr(isfix) {
-        if (isfix > 1 || isfix < 0) {
-            return console.log(`Неверный isfix_rr, указан: ${isfix}`)
-        };
-
-        dH = (isfix) ? SizeDB.d_rr(this.sys()) : SizeDB.d_rs(this.sys());
-        dW = (isfix) ? SizeDB.d_rr(this.sys()) : SizeDB.d_rs(this.sys());
+        // if (isfix > 1 || isfix < 0) {
+        //     return console.log(`Неверный isfix_rr, указан: ${isfix}`)
+        // };
+        const dH = (isfix === true) ? SizeDB.d_rr(this.sys()) : SizeDB.d_rs(this.sys());
+        const dW = (isfix === true) ? SizeDB.d_rr(this.sys()) : SizeDB.d_rs(this.sys());
         return [Math.floor(dW), Math.floor(dH)]
 
     },
 
     //! === glass type 1 === [r-i] -> рама - импост
     ri(isfix) {
-        if (isfix > 1 || isfix < 0) {
-            return console.log(`Неверный isfix_ri, указан: ${isfix}`)
-        };
+        console.log('isfix :>> ', isfix);
+        // if (isfix > 1 || isfix < 0) {
+        //     return console.log(`Неверный isfix_ri, указан: ${isfix}`)
+        // };
 
-        dH = (isfix) ? SizeDB.d_rr(this.sys()) : SizeDB.d_rs(this.sys());
-        dW = (isfix) ? SizeDB.d_ri(this.sys()) : SizeDB.d_sisr(this.sys());
+        let dH = (isfix) ? SizeDB.d_rr(this.sys()) : SizeDB.d_rs(this.sys());
+        let dW = (isfix) ? SizeDB.d_ri(this.sys()) : SizeDB.d_sisr(this.sys());
         return [Math.floor(dW), Math.floor(dH)]
     },
 
     //! === glass type 2 === [i-i] -> импост - импост
     ii(isfix) {
-        if (isfix > 1 || isfix < 0) {
-            return console.log(`Неверный isfix_ii, указан: ${isfix}`)
-        };
+        // if (isfix > 1 || isfix < 0) {
+        //     return console.log(`Неверный isfix_ii, указан: ${isfix}`)
+        // };
 
-        dH = (isfix) ? SizeDB.d_rr(this.sys()) : SizeDB.d_rs(this.sys());
-        dW = (isfix) ? SizeDB.d_ii(this.sys()) : SizeDB.d_sisi(this.sys());
+        dH = (isfix === true) ? SizeDB.d_rr(this.sys()) : SizeDB.d_rs(this.sys());
+        dW = (isfix === true) ? SizeDB.d_ii(this.sys()) : SizeDB.d_sisi(this.sys());
         return [Math.floor(dW), Math.floor(dH)]
     },
 
     door(isfix) {
-        if (isfix > 1 || isfix < 0) {
-            return console.log(`Неверный isfix_door, указан: ${isfix}`)
-        };
+        // if (isfix > 1 || isfix < 0) {
+        //     return console.log(`Неверный isfix_door, указан: ${isfix}`)
+        // };
 
-        dH = (isfix) ? SizeDB.d_rs(this.sys()) : SizeDB.d_doori(this.sys());
+        dH = (isfix === true) ? SizeDB.d_rs(this.sys()) : SizeDB.d_doori(this.sys());
         dW = SizeDB.d_rs(this.sys());
         return [Math.floor(dW), Math.floor(dH)]
     }
@@ -125,10 +125,14 @@ const Delta_selector = {
 
 class MainSelector {
     check(id) {
-        let elem = +document.getElementById(id).dataset.isfix;
-        let output = (elem === 1) ? "Фикса" : "Створка";
+        // let elem = document.getElementById(id).dataset.isfix;
+        let {
+            isfix
+        } = document.getElementById(id).dataset;
+        // let output = (elem === 1) ? "Фикса" : "Створка";
         // setTimeout(() => console.log(`id: ${id}(${output})`), 1);
-        return elem
+        // console.log('elem :>> ', !!elem);
+        return isfix
     }
     f(sizepool = getSizes()) {
         let g_left;
@@ -138,16 +142,20 @@ class MainSelector {
         ]
     }
     ff(sizepool = getSizes()) {
-        let g_left, g_right;
+        let g_left, g_right, isfixS1, isfixS2;
+        isfixS1 = this.check('s1');
+        console.log('s1', isfixS1);
+        isfixS2 = this.check('s2')
         g_left = new GLS(sizepool[0][0], sizepool[1][0]);
         g_right = new GLS(sizepool[0][1] - sizepool[0][0], sizepool[1][0]);
         return [
-            g_left.applyDelta(Delta_selector.ri(this.check("s1"))),
-            g_right.applyDelta(Delta_selector.ri(this.check("s2")))
+            g_left.applyDelta(Delta_selector.ri(isfixS1)),
+            g_right.applyDelta(Delta_selector.ri(isfixS2))
         ]
     }
     fff(sizepool = getSizes()) {
         let g_left, g_mid, g_right, g_w;
+        console.log('MainSelector s1>>isfix :>> ', this.check("s1"));
         g_left = new GLS(sizepool[0][0], sizepool[1][0]);
         g_right = new GLS(sizepool[0][1], sizepool[1][0]);
         g_w = new GLS(sizepool[0][2], sizepool[1][0]);

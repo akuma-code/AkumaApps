@@ -109,6 +109,7 @@ function getInstanceData() {
     const sizeset = _SizeTypeSet(type).map(item => new GLS(item.w, item.h));
     const glasses_mainS = new MainSelector()[type]();
 
+
     const sizeList = _SizeList();
     //@ts-ignore
     const getPrice = (zw, zh) => new PriceCalculator().calcIt(zw, zh);

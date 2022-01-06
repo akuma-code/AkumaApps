@@ -22,10 +22,10 @@ function loadState({
         // if (state == 0) opaopa(`${id}`)
         if (state == 1) {
             document.querySelector(`#${id}`).style.opacity = 1
-            document.querySelector(`#${id}`).dataset.isfix = 0
+            document.querySelector(`#${id}`).dataset.isfix = false
         } else {
             document.querySelector(`#${id}`).style.opacity = 0
-            document.querySelector(`#${id}`).dataset.isfix = 1
+            document.querySelector(`#${id}`).dataset.isfix = true
         }
     })
     $loadElems.map(elem => {
