@@ -70,6 +70,15 @@ function getSizes() {
     return sizepool
 }
 
+function getFixState(id) {
+    const elem = document.querySelector(`#${id}`);
+    const {
+        isfix
+    } = elem.dataset;
+    // console.log(`[getFixSt] >${id} :>>`, isfix);
+    return isfix
+}
+
 
 //! === Контейнер для выбора дельты стекла в зависимости от положения в раме
 const Delta_selector = {
@@ -78,51 +87,51 @@ const Delta_selector = {
     },
 
     //! === glass type 0 === [r-r] -> рама-рама
-    rr(isfix) {
+    rr(fix) {
         // if (isfix > 1 || isfix < 0) {
         //     return console.log(`Неверный isfix_rr, указан: ${isfix}`)
         // };
-        const dH = (isfix === true) ? SizeDB.d_rr(this.sys()) : SizeDB.d_rs(this.sys());
-        const dW = (isfix === true) ? SizeDB.d_rr(this.sys()) : SizeDB.d_rs(this.sys());
+        const dH = (fix === 'true') ? SizeDB.d_rr(this.sys()) : SizeDB.d_rs(this.sys());
+        const dW = (fix === 'true') ? SizeDB.d_rr(this.sys()) : SizeDB.d_rs(this.sys());
         return [Math.floor(dW), Math.floor(dH)]
 
     },
 
     //! === glass type 1 === [r-i] -> рама - импост
-    ri(isfix) {
-        console.log('isfix :>> ', isfix);
+    ri(fix) {
+        // console.log('ri isfix :>> ', isfix);
         // if (isfix > 1 || isfix < 0) {
         //     return console.log(`Неверный isfix_ri, указан: ${isfix}`)
         // };
 
-        let dH = (isfix) ? SizeDB.d_rr(this.sys()) : SizeDB.d_rs(this.sys());
-        let dW = (isfix) ? SizeDB.d_ri(this.sys()) : SizeDB.d_sisr(this.sys());
+        let dH = (fix === 'true') ? SizeDB.d_rr(this.sys()) : SizeDB.d_rs(this.sys());
+        let dW = (fix === 'true') ? SizeDB.d_ri(this.sys()) : SizeDB.d_sisr(this.sys());
         return [Math.floor(dW), Math.floor(dH)]
     },
 
     //! === glass type 2 === [i-i] -> импост - импост
-    ii(isfix) {
+    ii(fix) {
         // if (isfix > 1 || isfix < 0) {
         //     return console.log(`Неверный isfix_ii, указан: ${isfix}`)
         // };
 
-        dH = (isfix === true) ? SizeDB.d_rr(this.sys()) : SizeDB.d_rs(this.sys());
-        dW = (isfix === true) ? SizeDB.d_ii(this.sys()) : SizeDB.d_sisi(this.sys());
+        const dH = (fix === 'true') ? SizeDB.d_rr(this.sys()) : SizeDB.d_rs(this.sys());
+        const dW = (fix === 'true') ? SizeDB.d_ii(this.sys()) : SizeDB.d_sisi(this.sys());
         return [Math.floor(dW), Math.floor(dH)]
     },
 
-    door(isfix) {
+    door(fix) {
         // if (isfix > 1 || isfix < 0) {
         //     return console.log(`Неверный isfix_door, указан: ${isfix}`)
         // };
 
-        dH = (isfix === true) ? SizeDB.d_rs(this.sys()) : SizeDB.d_doori(this.sys());
-        dW = SizeDB.d_rs(this.sys());
+        const dH = (fix === 'true') ? SizeDB.d_rs(this.sys()) : SizeDB.d_doori(this.sys());
+        const dW = SizeDB.d_rs(this.sys());
         return [Math.floor(dW), Math.floor(dH)]
     }
 
 }
-
+//!MAIN SELECTOR
 class MainSelector {
     check(id) {
         // let elem = document.getElementById(id).dataset.isfix;
@@ -132,7 +141,7 @@ class MainSelector {
         // let output = (elem === 1) ? "Фикса" : "Створка";
         // setTimeout(() => console.log(`id: ${id}(${output})`), 1);
         // console.log('elem :>> ', !!elem);
-        return isfix
+        return getFixState(id)
     }
     f(sizepool = getSizes()) {
         let g_left;
@@ -143,9 +152,9 @@ class MainSelector {
     }
     ff(sizepool = getSizes()) {
         let g_left, g_right, isfixS1, isfixS2;
-        isfixS1 = this.check('s1');
-        console.log('s1', isfixS1);
-        isfixS2 = this.check('s2')
+
+        isfixS1 = getFixState('s1');
+        isfixS2 = getFixState('s2');
         g_left = new GLS(sizepool[0][0], sizepool[1][0]);
         g_right = new GLS(sizepool[0][1] - sizepool[0][0], sizepool[1][0]);
         return [
@@ -155,26 +164,31 @@ class MainSelector {
     }
     fff(sizepool = getSizes()) {
         let g_left, g_mid, g_right, g_w;
-        console.log('MainSelector s1>>isfix :>> ', this.check("s1"));
+
+        // console.log('MainSelector s1>>isfix :>> ', this.check("s1"));
+        let isfixS1 = getFixState('s1');
+        let isfixS2 = getFixState('s2');
+        let isfixS3 = getFixState('s3');
         g_left = new GLS(sizepool[0][0], sizepool[1][0]);
         g_right = new GLS(sizepool[0][1], sizepool[1][0]);
         g_w = new GLS(sizepool[0][2], sizepool[1][0]);
         g_mid = new GLS((g_w.w - g_left.w - g_right.w), g_w.h)
         return [
-            g_left.applyDelta(Delta_selector.ri(this.check("s1"))),
-            g_mid.applyDelta(Delta_selector.ii(this.check("s2"))),
-            g_right.applyDelta(Delta_selector.ri(this.check("s3")))
+            g_left.applyDelta(Delta_selector.ri(isfixS1)),
+            g_mid.applyDelta(Delta_selector.ii(isfixS2)),
+            g_right.applyDelta(Delta_selector.ri(isfixS3))
         ]
     }
     d(sizepool = getSizes()) {
         let g_door_top, g_door_bot, g_door_full;
-        const isFullGLS = !!this.check("sd");
+        // const isFullGLS = !!this.check("sd");
+        const isFullGLS = getFixState("sd");
         //! g_door проверяет есть в двери импост или нет
 
         g_door_full = new GLS(sizepool[0][0], sizepool[1][0]);
         g_door_bot = new GLS(sizepool[0][0], sizepool[1][1]);
         g_door_top = new GLS(sizepool[0][0], sizepool[1][0] - sizepool[1][1]);
-        if (isFullGLS) {
+        if (isFullGLS === 'true') {
             return [
                 g_door_full.applyDelta(Delta_selector.door(isFullGLS)),
             ]
@@ -187,31 +201,38 @@ class MainSelector {
     }
     df(sizepool = getSizes()) {
         let g_door, g_right;
+        let isfixS2 = getFixState('s2');
+        let isfixSd = getFixState('sd');
         //! g_door проверяет есть в двери импост или нет
-        g_door = (this.check("sd")) ? new GLS(sizepool[0][1], sizepool[1][0]) : new GLS(sizepool[0][1], sizepool[1][0] - sizepool[1][2]);
+        g_door = (isfixSd === 'true') ?
+            new GLS(sizepool[0][1], sizepool[1][0]) :
+            new GLS(sizepool[0][1], sizepool[1][0] - sizepool[1][2]);
         g_right = new GLS(sizepool[0][0], sizepool[1][1]);
+        // debugger
         return [
-            g_door.applyDelta(Delta_selector.door(this.check("sd"))),
-            g_right.applyDelta(Delta_selector.rr(this.check("s2")))
+            g_door.applyDelta(Delta_selector.door(isfixSd)),
+            g_right.applyDelta(Delta_selector.rr(isfixS2))
         ]
     }
     dff(sizepool = getSizes()) {
+        let isfixSd = getFixState('sd');
         let g_door, g_right, g_left;
         //! g_door проверяет есть в двери импост или нет
-        g_door = (this.check("sd")) ? new GLS(sizepool[0][2], sizepool[1][0]) : new GLS(sizepool[0][2], sizepool[1][0] - sizepool[1][2]);
+        g_door = (isfixSd === 'true') ? new GLS(sizepool[0][2], sizepool[1][0]) : new GLS(sizepool[0][2], sizepool[1][0] - sizepool[1][2]);
         g_left = new GLS(sizepool[0][0] - sizepool[0][1], sizepool[1][1]);
         g_right = new GLS(sizepool[0][1], sizepool[1][1]);
         return [
-            g_door.applyDelta(Delta_selector.door(this.check("sd"))),
+            g_door.applyDelta(Delta_selector.door(isfixSd)),
             g_left.applyDelta(Delta_selector.rr(this.check("s1"))),
             g_right.applyDelta(Delta_selector.rr(this.check("s2")))
         ]
     }
     fdf(sizepool = getSizes()) {
+        let isfixSd = getFixState('sd');
         let g_door, g_right, g_left;
         //! g_door проверяет есть в двери импост или нет
         g_left = new GLS(sizepool[0][0], sizepool[1][2]);
-        g_door = (this.check("sd")) ? new GLS(sizepool[0][2], sizepool[1][0]) : new GLS(sizepool[0][2], sizepool[1][0] - sizepool[1][3]);
+        g_door = (isfixSd === 'true') ? new GLS(sizepool[0][2], sizepool[1][0]) : new GLS(sizepool[0][2], sizepool[1][0] - sizepool[1][3]);
         g_right = new GLS(sizepool[0][1], sizepool[1][1]);
         return [
             g_left.applyDelta(Delta_selector.rr(this.check("s1"))),
