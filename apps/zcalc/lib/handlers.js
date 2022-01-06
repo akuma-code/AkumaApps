@@ -8,6 +8,15 @@ window.addEventListener('beforeunload', () => saveToLocalStorage);
 //         setTimeout(() => calcbtn.textContent = temp, 2000)
 //     }
 // })
+function hideimp() {
+    const imp = document.getElementById('himp');
+
+    if (hideHimp()) {
+        imp.style.removeProperty('display')
+    } else imp.style.setProperty('display', 'block')
+
+
+}
 
 function addListener() {
     //добавляет на поля ввода размеров возможность считать по нажатию ентера
@@ -32,11 +41,16 @@ function addListener() {
         })
     };
     let door = document.getElementById('sd');
-    const imp = document.getElementById('himp');
-    door.addEventListener("click", function () {
-        imp.style.display = (door.dataset.isfix == "0") ? "block" : "none";
+    door.addEventListener("click", hideimp);
+    // door.addEventListener("click", function () {
+    //     const imp = document.getElementById('himp');
 
-    });
+    //     if (hideHimp()) {
+    //         imp.style.removeProperty('display')
+    //     } else imp.style.setProperty('display', 'block')
+
+
+    // });
     //! CALC BUTTON
     document.getElementById('calc-btn').addEventListener('click', (event) => {
 
