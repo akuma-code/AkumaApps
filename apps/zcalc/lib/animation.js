@@ -173,7 +173,7 @@ function setPriceGroup() {
     let groups = (type == "Isolite") ? groupsI : groupsR
 
     for (let item of groups) {
-        if (item.name.includes(zcolor)) elem.innerText = item.setKat(kGroup)
+        if (item.name.includes(zcolor)) elem.textContent = item.setKat(kGroup)
     }
 }
 

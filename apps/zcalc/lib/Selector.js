@@ -247,7 +247,7 @@ const IdSelector = {
         f: ["w"],
         ff: ["levo", "w"],
         fff: ["levo", "w", "pravo"],
-        df: ["w", "levo"],
+        df: ["w", "pravo"],
         dff: ["w", "levo", "pravo"],
         fdf: ["levo", "w", "pravo"],
         d: ["w"],
