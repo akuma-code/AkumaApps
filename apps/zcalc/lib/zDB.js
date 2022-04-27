@@ -175,10 +175,17 @@ const rgroup5 = {
         "Канны Б/О",
         "Клаудиа Б/О",
         "Ринго",
-        "Шаде Б/О",
     ],
     setKat() {
         return 5
+    }
+};
+const rgroup6 = {
+    name: [
+        "Шаде Б/О",
+    ],
+    setKat() {
+        return 6
     }
 };
 
@@ -283,5 +290,5 @@ const igroup3 = {
     },
 }
 
-let groupsR = [rgroupE, rgroup1, rgroup2, rgroup3, rgroup4, rgroup5];
+let groupsR = [rgroupE, rgroup1, rgroup2, rgroup3, rgroup4, rgroup5, rgroup6];
 let groupsI = [igroup0, igroup1, igroup2, igroup3];

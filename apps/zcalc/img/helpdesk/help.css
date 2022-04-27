@@ -12,7 +12,7 @@
 
 button[data-handler] {
     position: absolute;
-    top: 90px;
+    top: 120px;
     left: 1150px;
     font-size: 22px;
     background: tomato;

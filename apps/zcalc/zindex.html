@@ -9,7 +9,7 @@ TODO: добавить отдельную дверь-->
     <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
     <link rel='stylesheet' href='lib/style.css' />
     <script src="lib/handlers.js"></script>
-    <script src="lib/priceDB.js" defer></script>
+    <script src="lib/priceDB.js"></script>
     <script src='lib/SizeDB.js'></script>
     <script src='lib/zDB.js'></script>
     <script src='lib/stateloader.js'></script>
@@ -98,12 +98,18 @@ TODO: добавить отдельную дверь-->
     </header>
 
     <div class="disc abs">
+        <label>
+            <span>Курс $$: </span>
+            <input type="number" name="dollar" id="dollar" step="1" value="" data-stls="dollarRDO">
+        </label>
         <label for="discount"><span>Скидка: </span>
             <input type="number" name="discount" id="discount" min="0" max="90" step="1" value="40"
                 data-stls="discount">
         </label>
+
         <label for="isdisc" class="usedisc"><input type="checkbox" name="usedisc" id="isdisc" data-stls="discount">
             Применять скидку?</label>
+
     </div>
     <!--!Выбор конфигурации окна для расчета-->
     <div id="cfgbox" class="cfg-gridbox">
@@ -200,7 +206,9 @@ TODO: добавить отдельную дверь-->
         td();
         tt();
         listSelector();
-        setPriceGroup()
+        setPriceGroup();
+        document.getElementById('dollar').value = localStorage.getItem('dollarRDO') || 85;
+        document.getElementById('dollar').onchange = (e) => localStorage.setItem('dollarRDO', e.target.value)
     </script>
 </body>
 

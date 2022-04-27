@@ -467,6 +467,12 @@ div#outside>span:-moz-first-node {
     width: 50px;
 }
 
+input[name="dollar"] {
+    font-size: 1.7rem;
+    text-align: center;
+    width: 50px;
+}
+
 /* #discount::after {
     content: "90%";
     position: absolute;
