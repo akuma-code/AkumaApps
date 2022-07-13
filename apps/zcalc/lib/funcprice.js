@@ -1,7 +1,7 @@
-//@ts-check
+
 const rdo = {
     coef: 2,
-    dollar: +localStorage.getItem("dollarRDO") || 85,
+    dollar: +localStorage.getItem("dollarRDO") || 80,
     sizes: {
         "Rollite": {
             w: [0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3, 1.4, 1.5],
@@ -54,8 +54,8 @@ const zPrice = {
  */
 class PriceCalculator {
     constructor () {
-        this.type = document.getElementById('ztype').innerText;
-        this.grp = document.getElementById('zgrp').innerText;
+        this.type = document.getElementById('ztype').innerText || "";
+        this.grp = document.getElementById('zgrp').innerText || "";
         // @ts-ignore
         this.sizepool = rdo.sizes[this.type];
 
