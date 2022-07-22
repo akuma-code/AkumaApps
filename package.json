@@ -1,11 +1,10 @@
 {
   "name": "akumas-apps",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "description": "Калькулятор жалюзев и техпомощь стайл калькулятор",
   "main": "main.js",
   "dependencies": {
-    "nodemon": "^2.0.15",
-    "update-electron-app": "^2.0.1"
+    "nodemon": "^2.0.15"
   },
   "scripts": {
     "make": "electron-forge make",
@@ -34,7 +33,7 @@
     "forge": {
       "packagerConfig": {
         "icon": "icon.ico",
-        "name": "TPS_zCalc"
+        "name": "zCalc"
       },
       "makers": [
         {

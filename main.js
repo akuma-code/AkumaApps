@@ -1,6 +1,6 @@
 const {
     BrowserWindow,
-    ipcMain,
+
     app
 } = require('electron');
 
@@ -22,15 +22,15 @@ const path = require('path');
 
 function createWindow() {
     const win = new BrowserWindow({
-        width: 310,
-        height: 220,
+        width: 1400,
+        height: 900,
         webPreferences: {
             nodeIntegration: true,
             contextIsolation: false,
         },
         useContentSize: true
     });
-    win.title = `Akuma's apps<${app.getVersion()}>`
+    win.title = `Калькулятор жалюзёв <${app.getVersion()}>`
     return win
 }
 
@@ -48,20 +48,8 @@ function openLink(w, h) {
 
 
 app.whenReady().then(() => {
-    createWindow().loadFile("public/homepage.html")
+    createWindow().loadFile(path.join(__dirname, "apps/zcalc", "zindex.html"))
+    // createWindow().loadFile("public/homepage.html")
 
-    ipcMain.on('msg', (_, arg) => {
 
-        console.log('app: ', arg)
-        // event.sender.send('msg', arg)
-        if (arg == 'zcalc') {
-            openLink(1400, 900)
-                .loadFile(path.join(__dirname, "apps/zcalc", "zindex.html"))
-        }
-        if (arg == 'tps') {
-            openLink(630, 750)
-                .loadFile(path.join(__dirname, "apps/tps", "index.html"));
-        }
-
-    })
 })
