@@ -1,6 +1,6 @@
 .rs__maincalc {
     position: relative;
-    display: grid;
+    display: none;
     left: 1010px;
     top: 200px;
     /* border: var(--border-main-d); */

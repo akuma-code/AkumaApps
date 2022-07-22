@@ -292,3 +292,73 @@ const igroup3 = {
 
 let groupsR = [rgroupE, rgroup1, rgroup2, rgroup3, rgroup4, rgroup5, rgroup6];
 let groupsI = [igroup0, igroup1, igroup2, igroup3];
+
+
+function listSelector() {
+    let type = document.getElementById('ztype').textContent;
+    let list = document.getElementById('zlist');
+    let groups = (type == "Isolite") ? groupsI : groupsR;
+
+    document.getElementById('zlist').value = "";
+    document.getElementById('zgrp').innerText = "";
+    list.innerHTML = "";
+
+
+    for (let gr of groups) {
+        for (let name of gr.name) {
+            let option = document.createElement("option");
+            option.textContent = name;
+            list.appendChild(option)
+        }
+    }
+    setPriceGroup()
+}
+async function tt() {
+    let elem = await document.getElementById('ztype');
+    let type;
+    let showelems = document.getElementsByClassName("show");
+
+    if (elem.textContent == "Rollite") {
+        elem.textContent = "Isolite";
+        elem.style.color = "white";
+        elem.style.transform = "rotateX(0deg)";
+        type = "Isolite";
+        // tl()
+        listSelector();
+
+    } else {
+        elem.style.color = "black";
+        elem.textContent = "Rollite";
+        elem.style.transform = "rotateX(360deg)";
+        type = "Rollite";
+        // tl();
+        listSelector()
+    }
+    for (let el of showelems) {
+        el.style.display = (type == "Isolite") ? "flex" : "none";
+    }
+}
+
+//!@togglelist переключает списки выбора цвета жалюзи роллайт/изолайт
+async function tl() {
+    let type = await document.getElementById('ztype').textContent;
+    let list = await document.getElementById('zhlist');
+    let groups = (type == "Isolite") ? groupsI : groupsR;
+
+    document.getElementById('zlist').value = "";
+    document.getElementById('zgrp').innerText = "";
+    list.innerHTML = "";
+
+
+    for (let gr of groups) {
+        for (let name of gr.name) {
+            let option = document.createElement("option");
+            option.value = name;
+            list.appendChild(option)
+        }
+    }
+}
+
+tt()
+
+

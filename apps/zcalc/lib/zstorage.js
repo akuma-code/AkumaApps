@@ -61,18 +61,18 @@ function _SizeTypeSet(type = null) {
             h: +hpr
         }],
         fdf: [{
-                w: +levo,
-                h: +hlv
-            },
-            {
-                w: +w,
-                h: +h,
-                himp: +himp
-            },
-            {
-                w: +pravo,
-                h: +hpr
-            }
+            w: +levo,
+            h: +hlv
+        },
+        {
+            w: +w,
+            h: +h,
+            himp: +himp
+        },
+        {
+            w: +pravo,
+            h: +hpr
+        }
         ],
     };
 
@@ -113,7 +113,7 @@ function getInstanceData() {
     const sizeList = _SizeList();
     //@ts-ignore
     const getPrice = (zw, zh) => new PriceCalculator().calcIt(zw, zh);
-    const glasses_OLD = glasses_mainS.map(( /** @type {Array} */ [gw, gh]) => {
+    const glasses_OLD = glasses_mainS.map(( /** @type {Array} */[gw, gh]) => {
         return {
             gw: gw,
             gh: gh
@@ -169,7 +169,7 @@ function countID() {
 
 
 class OutContainer {
-    constructor() {
+    constructor () {
         this.cont = [];
         this.exportCont = new TableExport();
         this.toTab = this.exportCont.expRaws;
@@ -183,7 +183,7 @@ class OutContainer {
         const type = block.type
         const bID = (n, type) => {
             let lett = type.toString()
-            return `${n}_${(lett[0]+lett[1]+lett[2]).toUpperCase()}`
+            return `${n}_${(lett[0] + lett[1] + lett[2]).toUpperCase()}`
         }
         const newblock = new OutBlockMain(block);
         const tempDiv = newblock.toDIV;
@@ -275,7 +275,7 @@ class OutContainer {
         blocks.forEach(block => {
             $out.insertAdjacentElement('beforeend', block)
         })
-        document.querySelector('#calc-btn').textContent = summ + ' руб.'
+        // document.querySelector('#calc-btn').textContent = summ + ' руб.'
     }
     getInfo() {
         console.log(`BlockBox[${this.cont.length}]: `, this.cont);
@@ -293,7 +293,7 @@ function IA(func) {
 }
 
 class OutBlockMain extends OutContainer {
-    constructor(block = getInstanceData) {
+    constructor (block = getInstanceData) {
         super()
         this.data = block;
         this.toDIV;
@@ -309,10 +309,12 @@ class OutBlockMain extends OutContainer {
 
         function _outhead({
             system,
-            gdepth
+            gdepth,
+            grp,
+            color
         }) {
             return `<div class = "outblock_head">
-                <span>${system}</span><span>(${gdepth}мм)</span>
+                <span>${color}</span><span style="color:#30375a">группа: ${grp}</span>
                 </div>`
         }
         div.innerHTML += _outhead(this.data);
@@ -320,22 +322,39 @@ class OutBlockMain extends OutContainer {
         function _outbody({
             color,
             zhals,
-            prices
+            prices,
+            gdepth,
+            system,
+            wintype
         }) {
             let discPrice = _applyDiscount(prices)
             const isDisc = document.querySelector('#isdisc').checked;
+            const wt = type => {
+                const wtypes = {
+                    fff: "Трешка",
+                    ff: "Двушка",
+                    f: "Однушка",
+                    df: "Б/Б Однушка",
+                    dff: "Б/Б Двушка",
+                    fdf: "Чебурашка",
+                    d: "Дверка",
 
+                }
+                return wtypes[type]
+            }
             let out = '<div class=outblock_body>';
-            out += (isDisc) ? `<div class = "out_color"><span>${color}</span><span style="color:#f7f0a4">${discPrice} руб.</span></div>` :
-                `<div class = "out_color"><span>${color}</span><span>${discPrice} руб.</span></div>`
+
+
+            // `<div class = "out_color"><span>${color}</span></div>`
             zhals.forEach(({
                 zw,
                 zh,
                 price
             }) => {
-                out += (isDisc) ? `<div class="out_sizes"><span>${zw} x ${zh} мм</span><span style="color:#ffffff">${_applyDiscount(price)} руб.</span></div>` :
-                    `<div class="out_sizes"><span>${zw} x ${zh} мм</span><span>${_applyDiscount(price)} руб.</span></div>`
-            })
+                out += `<div class="out_sizes"><span>Ш: <b style="color:#fff">${zw} мм</b> </span> <span>В: <b style="color:#fff">${zh} мм</b></span></div>`
+                // `<div class="out_sizes"><span>${zw} x ${zh} мм</span></div>`
+            });
+            out += `            <div class = "out_color"><span>${wt(wintype)}</span><span>${system}</span><span>Ст\\п: ${gdepth}мм</span></div>`
             out += `</div>`
             return out
         }
@@ -345,9 +364,10 @@ class OutBlockMain extends OutContainer {
             const footer = document.createElement('div');
             footer.classList.add('outblock_footer')
             footer.innerHTML = `
-            <button data-outbtn="export">В РДО</button>
             <button data-outbtn="load">Загрузить</button>
-            <button data-outbtn="delete">Удалить</button>`
+            <button data-outbtn="delete">Удалить</button>
+            `
+            // <button data-outbtn="export">В РДО</button>
 
             return footer
         };

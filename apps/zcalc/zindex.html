@@ -9,13 +9,44 @@ TODO: добавить отдельную дверь-->
     <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
     <link rel='stylesheet' href='lib/style.css' />
     <script src="lib/handlers.js"></script>
-    <script src="lib/priceDB.js"></script>
-    <script src='lib/SizeDB.js'></script>
-    <script src='lib/zDB.js'></script>
-    <script src='lib/stateloader.js'></script>
+    <!-- <script src="lib/priceDB.js"></script> -->
+    <!-- <script src='lib/SizeDB.js'></script> -->
+    <!-- <script src='lib/zDB.js'></script> -->
+    <!-- <script src='lib/stateloader.js'></script> -->
     <script src='lib/animation.js'></script>
-    <script src='lib/main.js'></script>
+    <!-- <script src='lib/main.js'></script> -->
     <script>
+        async function newloader() {
+            const add = src => {
+                const script = document.createElement("script");
+                script.src = src
+                document.head.append(script)
+                // script.onload = () => console.count(src)
+            }
+            [
+                "lib/priceDB.js",
+                // "lib/handlers.js",
+                // 'lib/animation.js',
+                'lib/SizeDB.js',
+                'lib/zDB.js',
+                'lib/stateloader.js',
+                'lib/main.js',
+                "lib/expTable.js",
+                "lib/funcprice.js",
+                "lib/Selector.js",
+                "lib/zstorage.js",
+                "lib/mapper.js",
+                "lib/model.js",
+            ].map(src => {
+                try {
+                    add(src)
+
+                } catch (error) {
+                    console.log(error.message)
+                }
+            })
+
+        }
         function loadScript(src, callback) {
             let script = document.createElement("script");
             script.src = src;
@@ -24,17 +55,17 @@ TODO: добавить отдельную дверь-->
         }
         loadScript('zApp.js', () => {
             new HelpDesk();
-            new AppScriptLoader([
-                "lib/expTable.js",
-                "lib/funcprice.js",
-                "lib/Selector.js",
-                "lib/zstorage.js",
-                "lib/mapper.js",
-                "lib/model.js",
-                "lib/testing.js",
-            ])
+            // new AppScriptLoader([
+            // "lib/expTable.js",
+            // "lib/funcprice.js",
+            // "lib/Selector.js",
+            // "lib/zstorage.js",
+            // "lib/mapper.js",
+            // "lib/model.js",
+            // "lib/testing.js",
+            // ])
         });
-        stylelog("HTML IS READY");
+
     </script>
 
 
@@ -42,7 +73,7 @@ TODO: добавить отдельную дверь-->
 </head>
 
 <body>
-    
+
     <!-- *Header: кнопки смены профильной системы, толщины ст-п, типа и цвета жалюзи а также их группа и, наконец, кнопка расчета -->
     <header class="head">
         <div class="headcont">
@@ -173,7 +204,7 @@ TODO: добавить отдельную дверь-->
                     autocomplete="on">
             </div>
             <script>
-                restoreInputs()
+
             </script>
         </div>
         <!--!OUTPUT-->
@@ -183,11 +214,11 @@ TODO: добавить отдельную дверь-->
         </div>
     </div>
     <!--! SingleCalc Output-->
-    <div class="rs__maincalc" id="rs__calc" data-rs-calc="hide"></div>
+    <div class="rs__maincalc" id="rs__calc" data-rs-calc="hide" display='none'></div>
     <!--!кнопка СБРОС-->
     <img src="img/reset.jpg" alt="reset" id="reset" class="resbtn" onclick="fullreset()">
     <!--! Toggle Single Calculator-->
-    <div class="btn__cont" id="btn__cont">
+    <div class="btn__cont" id="btn__cont" display='none'>
         <div class="btn__thumb" data-calc-state="close" onclick="toggle_rs_calc(this)"></div>
     </div>
     <!--! Show Table Btn-->
@@ -200,11 +231,22 @@ TODO: добавить отдельную дверь-->
     <div class="helpdesk" id="hd">
     </div>
     <script>
+
+
+        newloader()
+            .then(_ => {
+
+
+
+                stylelog("HTML IS READY");
+                restoreInputs()
+            }, error => console.log("Load error")).then(() => {
+                // td();
+                // tt();
+                // listSelector();
+                // setPriceGroup();
+            })
         addListener();
-        td();
-        tt();
-        listSelector();
-        setPriceGroup();
         document.getElementById('dollar').value = localStorage.getItem('dollarRDO') || 85;
         document.getElementById('dollar').onchange = (e) => localStorage.setItem('dollarRDO', e.target.value)
     </script>

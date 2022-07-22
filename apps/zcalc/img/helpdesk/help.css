@@ -12,14 +12,13 @@
 
 button[data-handler] {
     position: absolute;
-    top: 120px;
-    left: 1150px;
+    top:10px;
+    left: 1020px;
     font-size: 22px;
     background: tomato;
     padding: 4px 8px 4px 8px;
     transition: all .2s ease-in;
-    cursor: pointer;
-
+        cursor: pointer;
 }
 
 button[data-handler]:hover {

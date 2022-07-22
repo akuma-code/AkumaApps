@@ -36,9 +36,9 @@ function gonow() {
     //* console.log(`Жалюзи: `, zh);
     //* stylelog(`Price: ${prices} Summary: ${sum} rub`);
 
-    document.getElementById('calc-btn').innerHTML = `${Math.floor(store.get("summ") * (1-disc/100))} руб.`;
+    // document.getElementById('calc-btn').innerHTML = `${Math.floor(store.get("summ") * (1-disc/100))} руб.`;
     // document.getElementById('calc-btn').innerHTML = `${Math.ceil(sum * (1-disc/100))} руб.`;
-    document.getElementById('outside').insertAdjacentHTML('beforeend', `<div class="summ">Скидка ${disc}%: <b>${Math.round(sum*(1-disc/100))} руб.</b></div> `);
+    document.getElementById('outside').insertAdjacentHTML('beforeend', `<div class="summ">Скидка ${disc}%: <b>${Math.round(sum * (1 - disc / 100))} руб.</b></div> `);
 
     console.log(`Stored elements: ${store.size - 1}`);
     saveToLocalStorage()

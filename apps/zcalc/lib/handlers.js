@@ -18,7 +18,7 @@ function hideimp() {
 
 }
 
-function addListener() {
+async function addListener() {
     //добавляет на поля ввода размеров возможность считать по нажатию ентера
     //! INPUT.SIZE
     let sizes = document.getElementsByClassName("size");

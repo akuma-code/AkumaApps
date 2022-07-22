@@ -1,3 +1,7 @@
+
+
+
+
 const SizeDB = { //дельта рама, шмпост, импост-створка, импост-рама, импост в створке
 
     d_rr(sys) { //*rama + rama
@@ -115,6 +119,49 @@ const SizeDB = { //дельта рама, шмпост, импост-створ�
 };
 
 
+
+// !@toggledepth фильтрует список ст/п в зависимости от профиля
+/**
+ * @name ToggleDepth - переключатель стеклопакетов в зависимости от профиля 
+ */
+async function td() {
+    let sys = await document.getElementById('prof').value;
+
+    let system = await SizeDB[sys];
+    let elems = document.getElementsByClassName('odepth');
+
+    for (let elem of elems) {
+
+        if (SizeDB[sys].dpt.includes(elem.value)) {
+            elem.style.display = "block";
+        } else {
+            elem.style.display = "none"
+        }
+    }
+    document.getElementById('gdepth').style.opacity = 1;
+    document.getElementById('gdepth').value = system.dpt[0];
+}
+// td()
+
+
+
+// !@Set Group - определяет группу жалюзей #zgrp
+function setPriceGroup() {
+    // let type = document.getElementById('ztype').textContent;
+    let zcolor = document.getElementById('zlist').value;
+    let elem = document.getElementById('zgrp');
+    const {
+        kColor,
+        kGroup,
+        type
+    } = getKorob();
+
+    let groups = (type == "Isolite") ? groupsI : groupsR
+
+    for (let item of groups) {
+        if (item.name.includes(zcolor)) elem.textContent = item.setKat(kGroup)
+    }
+}
 const Rama = {
     use: {
         "f": ["w", "h"],
@@ -126,3 +173,6 @@ const Rama = {
     },
 
 }
+
+
+

@@ -1,6 +1,6 @@
 .btn__cont {
     position: relative;
-    display: block;
+    display: none;
     width: 104px;
     height: 54px;
     background-color: steelblue;
