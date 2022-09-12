@@ -1,6 +1,6 @@
 {
   "name": "akumas-apps",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "description": "Калькулятор жалюзев и техпомощь стайл калькулятор",
   "main": "main.js",
   "dependencies": {
@@ -66,6 +66,5 @@
   },
   "bugs": {
     "url": "https://github.com/akuma-code/AkumaApps/issues"
-  },
-  "homepage": "https://github.com/akuma-code/AkumaApps#readme"
+  }
 }
