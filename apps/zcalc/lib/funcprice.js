@@ -121,7 +121,8 @@ class PriceCalculator {
         const [indH, indW] = this.getind(zw, zh);
         const result = Math.floor(this.price[indH][indW])
 
-        return Math.round(result * this.S_rate(zw, zh))
+        // return Math.round(result * this.S_rate(zw, zh))
+        return result
     }
     /**
      * 
@@ -134,51 +135,14 @@ class PriceCalculator {
             let w = size[0];
             let h = size[1];
             let [indH, indW] = this.getind(w, h);
-            result.push(this.price[indH][indW] * this.S_rate(w, h));
+            result.push(this.price[indH][indW]);
+            // result.push(this.price[indH][indW] * this.S_rate(w, h));
         }
         return result
     }
 
 }
 
-// class ActualPrice {
-//     // @ts-ignore
-//     // get rate() {
-//     //     return rdo.rate
-//     // }
-
-//     scale(priceGroup = []) {
-//         const result = [];
-//         if (priceGroup.length === 0) return console.log(`${priceGroup} failure`);
-//         for (let line of priceGroup) {
-//             result.push(line.map(value => Math.round(value * rdo.rate)))
-//         }
-//         return result
-//     }
-
-//     // @ts-ignore
-//     rolMap(pl = Pricelist.Rollite) {
-//         let rMap = new Map();
-//         for (let key in pl) {
-//             // console.log(`group:${key}`);
-//             rMap.set(key, new ActualPrice().scale(pl[key]))
-//         }
-//         console.log('rMap :>> ', rMap);
-//         // console.log(`Rolllite: ${rMap.size} groups`);
-//         return Object.fromEntries(rMap)
-//     }
-//     // @ts-ignore
-//     isoMap(pl = Pricelist.Isolite) {
-//         let iMap = new Map();
-//         for (let key in pl) {
-//             // console.log(`group:${key}`);
-//             iMap.set(key, new ActualPrice().scale(pl[key]))
-//         }
-//         // console.log(`Isolite: ${iMap.size} groups`);
-//         return Object.fromEntries(iMap)
-//     }
-
-// }
 
 
 
