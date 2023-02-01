@@ -48,20 +48,21 @@ function openLink(w, h) {
 
 
 app.whenReady().then(() => {
-    createWindow().loadFile("public/homepage.html")
+    // createWindow().loadFile("public/homepage.html")
+    openLink(1400, 900)
+        .loadFile(path.join(__dirname, "apps/zcalc", "zindex.html"))
+    // ipcMain.on('msg', (_, arg) => {
 
-    ipcMain.on('msg', (_, arg) => {
+    //     console.log('app: ', arg)
+    //     // event.sender.send('msg', arg)
+    //     if (arg == 'zcalc') {
+    //         openLink(1400, 900)
+    //             .loadFile(path.join(__dirname, "apps/zcalc", "zindex.html"))
+    //     }
+    //     if (arg == 'tps') {
+    //         openLink(630, 750)
+    //             .loadFile(path.join(__dirname, "apps/tps", "index.html"));
+    //     }
 
-        console.log('app: ', arg)
-        // event.sender.send('msg', arg)
-        if (arg == 'zcalc') {
-            openLink(1400, 900)
-                .loadFile(path.join(__dirname, "apps/zcalc", "zindex.html"))
-        }
-        if (arg == 'tps') {
-            openLink(630, 750)
-                .loadFile(path.join(__dirname, "apps/tps", "index.html"));
-        }
-
-    })
+    // })
 })
