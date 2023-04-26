@@ -1,6 +1,6 @@
 //! ================================================================ Вспомогательный класс, одиночное стекло==========================//
 class GLS {
-    constructor(w = null, h = null) {
+    constructor (w = null, h = null) {
         this.w = w;
         this.h = h;
     }
@@ -93,7 +93,7 @@ const Delta_selector = {
         // };
         const dH = (fix === 'true') ? SizeDB.d_rr(this.sys()) : SizeDB.d_rs(this.sys());
         const dW = (fix === 'true') ? SizeDB.d_rr(this.sys()) : SizeDB.d_rs(this.sys());
-        return [Math.floor(dW), Math.floor(dH)]
+        return [Math.round(dW), Math.floor(dH)]
 
     },
 
@@ -106,7 +106,7 @@ const Delta_selector = {
 
         let dH = (fix === 'true') ? SizeDB.d_rr(this.sys()) : SizeDB.d_rs(this.sys());
         let dW = (fix === 'true') ? SizeDB.d_ri(this.sys()) : SizeDB.d_sisr(this.sys());
-        return [Math.floor(dW), Math.floor(dH)]
+        return [Math.round(dW), Math.floor(dH)]
     },
 
     //! === glass type 2 === [i-i] -> импост - импост
@@ -117,7 +117,7 @@ const Delta_selector = {
 
         const dH = (fix === 'true') ? SizeDB.d_rr(this.sys()) : SizeDB.d_rs(this.sys());
         const dW = (fix === 'true') ? SizeDB.d_ii(this.sys()) : SizeDB.d_sisi(this.sys());
-        return [Math.floor(dW), Math.floor(dH)]
+        return [Math.round(dW), Math.floor(dH)]
     },
 
     door(fix) {
@@ -127,7 +127,7 @@ const Delta_selector = {
 
         const dH = (fix === 'true') ? SizeDB.d_rs(this.sys()) : SizeDB.d_doori(this.sys());
         const dW = SizeDB.d_rs(this.sys());
-        return [Math.floor(dW), Math.floor(dH)]
+        return [Math.round(dW), Math.floor(dH)]
     }
 
 }
@@ -265,7 +265,7 @@ const IdSelector = {
 }
 //!FIX: ПЕРЕДЕЛАТЬ MAIN SELECTOR! 
 class Outputer {
-    constructor() {
+    constructor () {
         this.sys = document.getElementById('prof').value;
         this.ztype = document.getElementById('ztype').innerText;
         this.zcolor = document.getElementById('zlist').value;
